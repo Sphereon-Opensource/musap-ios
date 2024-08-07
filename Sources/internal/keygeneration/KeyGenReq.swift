@@ -15,6 +15,7 @@ public class KeyGenReq {
     public let stepUpPolicy: StepUpPolicy?
     public let attributes:   [KeyAttribute]?
     public let keyAlgorithm: KeyAlgorithm?
+    public let userAuthenticationRequired: Bool?
     
     public init(
         keyAlias:     String,
@@ -22,7 +23,8 @@ public class KeyGenReq {
         role:         String,
         stepUpPolicy: StepUpPolicy? = nil,
         attributes:   [KeyAttribute]? = nil,
-        keyAlgorithm: KeyAlgorithm? = nil
+        keyAlgorithm: KeyAlgorithm? = nil,
+        userAuthenticationRequired: Bool? = false
     )
     {
         self.keyAlias     = keyAlias
@@ -31,6 +33,7 @@ public class KeyGenReq {
         self.stepUpPolicy = stepUpPolicy
         self.attributes   = attributes
         self.keyAlgorithm = keyAlgorithm
+        self.userAuthenticationRequired = userAuthenticationRequired
     }
     
 }

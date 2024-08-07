@@ -54,12 +54,17 @@ public class SecureEnclaveSscd: MusapSscdProtocol {
             throw MusapException.init(MusapError.internalError)
         }
         
+        let accessControlFlags: SecAccessControlCreateFlags = req.userAuthenticationRequired == true 
+           ? [.userPresence, .privateKeyUsage] 
+           : [.privateKeyUsage]  /*.biometryCurrentSet TODO: Make this value come from Settings??*/
+       
         let accessControl = SecAccessControlCreateWithFlags(
-            kCFAllocatorDefault,
-            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-            [.privateKeyUsage, /*.biometryCurrentSet TODO: Make this value come from Settings??*/],
-            nil)
-        
+           kCFAllocatorDefault,
+           kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+           accessControlFlags,  
+           nil
+        )
+     
         let keyAttributes: [String: Any] = [
             kSecAttrKeyType as String: algo,
             kSecAttrKeySizeInBits as String: bits,
