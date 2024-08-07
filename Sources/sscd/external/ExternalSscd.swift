@@ -330,4 +330,12 @@ public class ExternalSscd: MusapSscdProtocol {
         return self.getKeyAttestation().getAttestationData(key: key)
     }
     
+        
+    public func encryptData(req: EncryptionReq) throws -> Data {
+        fatalError("encryptData not yet implemented for ExternalSscd")    
+    }
+    
+    public func decryptData(req: DecryptionReq) throws -> Data {
+        fatalError("decryptData not yet implemented for ExternalSscd")
+    }
 }

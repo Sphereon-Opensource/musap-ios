@@ -470,7 +470,13 @@ public class YubikeySscd: MusapSscdProtocol {
     public func attestKey(key: MusapKey) -> KeyAttestationResult {
         return self.getKeyAttestation().getAttestationData(key: key)
     }
+
     
+    public func encryptData(req: EncryptionReq) throws -> Data {
+        fatalError("encryptData not supported for YubikeySscd")    
+    }
+    
+    public func decryptData(req: DecryptionReq) throws -> Data {
+        fatalError("decryptData not supported for YubikeySscd")
+    }    
 }
-
-

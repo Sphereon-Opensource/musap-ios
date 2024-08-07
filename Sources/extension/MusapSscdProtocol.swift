@@ -27,6 +27,9 @@ public protocol MusapSscdProtocol: SscdSettings {
     
     func attestKey(key: MusapKey) -> KeyAttestationResult
     
+    func encryptData(req: EncryptionReq) throws -> Data
+    
+    func decryptData(req: DecryptionReq) throws -> Data
 }
 
 extension MusapSscdProtocol {

@@ -299,7 +299,48 @@ public class SecureEnclaveSscd: MusapSscdProtocol {
     public func attestKey(key: MusapKey) -> KeyAttestationResult {
         return KeyAttestationResult(attestationStatus: .INVALID)
     }
-
-
-
+    
+    public func encryptData(req: EncryptionReq) throws -> Data {
+        guard let publicKey = encryptionReq.key.keyRef else {
+            throw EncryptionError.keyGenerationFailed
+        }
+        
+        let dataToEncrypt: Data
+        if let salt = encryptionReq.getSalt() {
+            dataToEncrypt = salt + encryptionReq.getData()
+        } else {
+            dataToEncrypt = encryptionReq.getData()
+        }
+        
+        var error: Unmanaged<CFError>?
+        guard let encryptedData = SecKeyCreateEncryptedData(publicKey,
+                                                            .eciesEncryptionStandardX963SHA256AESGCM,
+                                                            dataToEncrypt as CFData,
+                                                            &error) as Data? else {
+            throw error!.takeRetainedValue() as Error
+        }
+        
+        return encryptedData
+    }
+    
+    public func decryptData(req: DecryptionReq) throws -> Data {
+        guard let privateKey = decryptionReq.key.keyRef else {
+                  throw DecryptionError.keyRetrievalFailed
+        }
+              
+        var error: Unmanaged<CFError>?
+        guard let decryptedData = SecKeyCreateDecryptedData(privateKey,
+                                                          .eciesEncryptionStandardX963SHA256AESGCM,
+                                                          decryptionReq.getData() as CFData,
+                                                          &error) as Data? else {
+            throw error!.takeRetainedValue() as Error
+        }
+        
+        if let salt = decryptionReq.getSalt() {
+            let saltLength = salt.count
+            return decryptedData.dropFirst(saltLength)
+        } else {
+            return decryptedData
+        }
+    }
 }

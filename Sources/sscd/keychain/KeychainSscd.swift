@@ -221,7 +221,11 @@ public class KeychainSscd: MusapSscdProtocol {
         return KeyAttestationResult(attestationStatus: .INVALID)
     }
     
+    public func encryptData(req: EncryptionReq) throws -> Data {
+        fatalError("encryptData not yet implemented for KeychainSscd")    
+    }
     
-    
-    
+    public func decryptData(req: DecryptionReq) throws -> Data {
+        fatalError("decryptData not yet implemented for KeychainSscd")
+    }    
 }
