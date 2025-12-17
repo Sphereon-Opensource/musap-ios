@@ -219,7 +219,7 @@ k                    guard let publicKeyData = Data(base64Encoded: publickey) el
         if request.attributes == nil {
             request.attributes = [String: String]()
         }
-        
+
         do {
             var theSignature: MusapSignature?
             
