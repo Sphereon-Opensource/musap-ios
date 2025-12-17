@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public class SignatureFormat: Codable {
     
     public static let CMS = SignatureFormat("CMS")
